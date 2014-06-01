@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="FiveActionBarTheme"
+           parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    
+        <item name="android:actionBarStyle">@style/FiveActionBar</item>
+
+    </style>
+
+    <style name="FiveActionBar"
+           parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#001A8F</item>
+
+    </style>
+        
+</resources>

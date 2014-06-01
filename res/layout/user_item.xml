@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This is the layout of a single list item in the nearby users list. -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/item_image"
+        android:text="Title"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/item_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/item_title"
+        android:layout_below="@id/item_title"
+        android:text="Description" />
+
+</RelativeLayout>
