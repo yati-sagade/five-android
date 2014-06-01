@@ -481,7 +481,7 @@ public class FiveClient
     }
 
     public FiveNotification getNotification() {
-        String notificationFile = "/notifyme/";
+        String notificationFile = "/pull/";
         try { 
             Response response = post(notificationFile, "");
             return getFiveNotification(response);
@@ -501,21 +501,26 @@ public class FiveClient
     public FiveNotification getFiveNotification(Response response) {
         FiveNotification ret = null;
         try {
+            Log.d("five", "The json notif is " + response.content);
             JSONObject content = new JSONObject(response.content);
-            final String msg = content.getString("data");
-            if (msg.equals("")) {
-                return null;
-            }
-            final String img = content.getString("picture");
-            Drawable image = null;
-            try {
-                URI uri = new URL(baseURL, img).toURI();
-                image = loadDrawable(uri);
-                ret = new FiveNotification(msg, image);
-            } catch (URISyntaxException e) {
-                Log.d("five", "FiveClient.getNotification(): " + e.toString());
-            } catch (Exception e) {
-                Log.d("five", "FiveClient.getNotification(): " + e.toString());
+            JSONArray allNotifications = content.getJSONArray("data");
+            for (int idx = 0; idx < allNotifications.length(); ++idx) {
+                JSONObject data = allNotifications.getJSONObject(idx);
+                final String msg = data.getString("data");
+                if (msg.equals("")) {
+                    return null;
+                }
+                final String img = data.getString("image");
+                Drawable image = null;
+                try {
+                    URI uri = new URL(baseURL, img).toURI();
+                    image = loadDrawable(uri);
+                    ret = new FiveNotification(msg, image);
+                } catch (URISyntaxException e) {
+                    Log.d("five", "FiveClient.getNotification(): " + e.toString());
+                } catch (Exception e) {
+                    Log.d("five", "FiveClient.getNotification(): " + e.toString());
+                }
             }
         } catch (JSONException e) {
             Log.d("five", "Error decoding JSON response: " + e.toString());

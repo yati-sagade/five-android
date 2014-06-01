@@ -4,6 +4,7 @@
     <string name="button_refresh_nearby_list">Refresh</string>
     <string name="login_activity">Login to Five</string>
     <string name="checkin_activity">Check in</string>
+    <string name="checkin">Check in</string>
     <string name="map_activity">Map Demo</string>
     <string name="home_activity">Five home</string>
     <string name="handle">Handle</string>

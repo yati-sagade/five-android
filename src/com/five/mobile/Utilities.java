@@ -283,11 +283,20 @@ public class Utilities
     }
 
     public static String toJSON(List<Place> places, Context context) {
-        JSONArray ret = new JSONArray();
-        for (Place place : places) {
-            ret.put(toJSONObject(place, context));
+        try {
+            JSONArray ret = new JSONArray();
+            if (places == null) {
+                return null;
+            }
+            for (Place place : places) {
+                ret.put(toJSONObject(place, context));
+            }
+            return ret.toString();
+        } catch (Exception e) {
+            Log.d("five", e.toString());
+            e.printStackTrace();
         }
-        return ret.toString();
+        return null;
     }
 
     public static List<Place> placesFromJSON(String placesJson, Context context) {
