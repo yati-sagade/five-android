@@ -43,6 +43,8 @@ public class MainActivity extends Activity
     private GoogleMap map = null;
     private List<Place> places = null;
 
+    int mapX = 0, mapY = 0;
+
     /**
      * Called by the Location services when a request to connect a client
      * finishes successfully.
@@ -63,6 +65,8 @@ public class MainActivity extends Activity
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 14.0F);
         map.animateCamera(update);
         map.addMarker(new MarkerOptions().position(latLng));
+
+        drawHeatMap(latLng);
         // Get nearby places and show them 
         fiveClient.getNearbyPlaces(location, nearbyPlacesHandler);
     }
@@ -191,6 +195,53 @@ public class MainActivity extends Activity
         updateActionBar();
     }
 
+    private void drawHeatMap(LatLng me) {
+        int mapW = mapView.getWidth();
+        int mapH = mapView.getHeight();
+        Log.d("five", "In drawHeatMap(): " + mapX + ", " + mapY + " - " + mapW + ", " + mapH);
+        Point p1 = new Point(mapX, mapY);
+        Point p2 = new Point(mapX + mapW, mapY + mapH); 
+        Projection proj = map.getProjection();
+        double lat = me.latitude,
+               lon = me.longitude;
+
+        addCircle(lat + 0.0009, lon);
+        addCircle(lat + 0.001, lon - 0.005);
+        addCircle(lat + 0.0004, lon + 0.0004);
+        addCircle(lat - 0.003, lon + 0.004);
+        addCircle(lat + 0.0008, lon + 0.0007);
+        addCircle(lat + 0.0009, lon + 0.0004);
+        addCircle(lat + 0.001, lon + 0.0004);
+
+        /* map.addMarker(new MarkerOptions().position(l1)); */
+        /* map.addMarker(new MarkerOptions().position(l2)); */
+        /* map.addMarker(new MarkerOptions().position(l3)); */
+        /* map.addMarker(new MarkerOptions().position(l4)); */
+        /* map.addMarker(new MarkerOptions().position(l5)); */
+        /* map.addMarker(new MarkerOptions().position(l6)); */
+        /* map.addMarker(new MarkerOptions().position(l7)); */
+
+        /* for (int i = 0; i < 100; ++i) { */
+        /*     int randX = Utilities.randInt(0, mapW), */
+        /*         randY = Utilities.randInt(0, mapH); */
+        /*     LatLng l1 = proj.fromScreenLocation(new Point(randX, randY)); */
+        /* } */
+        /* LatLng l1 = proj.fromScreenLocation(p1), */
+        /*        l2 = proj.fromScreenLocation(p2); */
+        /* long lat1 = (long) (l1.latitude * 10e6), */
+        /*      lon1 = (long) (l1.longitude * 10e6), */
+        /*      lat2 = (long) (l2.latitude * 10e6), */
+        /*      lon2 = (long) (l2.longitude * 10e6); */
+        /*  */
+        /* for (int i = 0; i < 500; ++i) { */
+        /*     double randLat = (double)Utilities.randLong(lat1, lon1); */
+        /*     double randLon = (double)Utilities.randLong(lat2, lon2); */
+        /*     Log.d("five", "" + lat1 + ", " + lon1 + " - " + lat2 + ", " + lon2 + " - " + randLat + ", " + randLon); */
+        /*     map.addMarker(new MarkerOptions().position(new LatLng(randLat / 10e6, randLon / 10e6))); */
+        /* } */
+    }
+
+
     private void updateActionBar()
     {
         SpannableString s = new SpannableString(getString(R.string.app_name));
@@ -222,6 +273,16 @@ public class MainActivity extends Activity
         else
         {
             startPopulating();
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged (boolean hasFocus) {
+        if (hasFocus) {
+            int[] pos = new int[2];
+            mapView.getLocationOnScreen(pos);
+            mapX = pos[0];
+            mapY = pos[1];
         }
     }
 

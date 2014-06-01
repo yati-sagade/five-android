@@ -364,4 +364,11 @@ public class Utilities
         TextView textView = (TextView) activity.findViewById(R.id.waiting_message);
         textView.setText(message);
     }
+
+    private static Random random = new Random();
+
+    public static int randInt(int min, int max) {
+        return random.nextInt((max - min) + 1) + min;
+    }
+        
 }
